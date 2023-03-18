@@ -44,9 +44,42 @@
         { data: '觀看次數' },
         { data: '訂閱數' },
         { data: '所屬' }
-      ]
+      ],
+      order: [[5, 'asc']] // 以訂閱數遞減排序
     });
     
+    //建立所屬篩選下拉選單
+      var distinct = [];
+      table.column(6).data().each(function(value, index) {
+        if (distinct.indexOf(value) === -1) {
+          distinct.push(value);
+        }
+      });
+
+      var select = $('<select><option value="">所有</option></select>')
+        .appendTo('#myTable_filter')
+        .on('change', function() {
+          var val = $.fn.dataTable.util.escapeRegex(
+            $(this).val()
+          );
+          
+          table.column(6).search(val ? '^' + val + '$' : '', true, false).draw();
+          
+          
+        });
+
+
+      $.each(distinct, function(index, value) {
+        if(value.trim() != ''){
+          select.append('<option value="' + value + '">' + value + '</option>');
+        }
+        
+      });
+      // 設定篩選文字
+      $('<label>所屬   </label>').appendTo('#myTable_filter');
+
+
+
     // 設定自定義篩選
     $.fn.dataTable.ext.search.push(
       function(settings, data, dataIndex) {
@@ -78,7 +111,7 @@
       });
       
     // 設定篩選文字
-    $('<label>訂閱數範圍: </label>').appendTo('#myTable_filter');
+    $('<label>訂閱數範圍</label>').appendTo('#myTable_filter');
   }
 });
         </script>
