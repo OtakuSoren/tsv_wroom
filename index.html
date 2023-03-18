@@ -1,12 +1,53 @@
-
+<!DOCTYPE html>
 <html>
-<title>台灣小V戰情室</title>
-<body>
- <h1>台灣小V戰情室</h1>
- 這是Soren宅玩首次的github網頁
-    
-
-
-</body>
-
+    <head>
+        <meta charset="UTF-8">
+        <title>CSV表格網頁</title>
+        <link rel="stylesheet" type="text/css" href="css/datatables.min.css">
+        <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" src="js/datatables.min.js"></script>
+        <script type="text/javascript" src="js/papaparse.min.js"></script>
+    </head>
+    <body>
+        <table id="myTable">
+            <thead>
+                <tr>
+                    <th>頻道名稱</th>
+                    <th>傳送門</th>
+                    <th>頻道加入時間</th>
+                    <th>影片數</th>
+                    <th>觀看次數</th>
+                    <th>訂閱數</th>
+                    <th>所屬</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <script type="text/javascript">
+      Papa.parse("your_csv_file.csv", {
+        download: true,
+        header: true,
+        complete: function(results) {
+          var data = results.data;
+          var table = $('#myTable').DataTable({
+            data: data,
+            columns: [
+              { data: '頻道名稱' },
+              { 
+                data: null, // 在此欄位中手動建立超連結 HTML
+                render: function(data, type, row) {
+                  return '<a href="' + data.傳送門 + '">' + data.傳送門 + '</a>';
+                }
+              },
+              { data: '頻道加入時間' },
+              { data: '影片數' },
+              { data: '觀看次數' },
+              { data: '訂閱數' },
+              { data: '所屬' }
+            ]
+          });
+        }
+      });
+        </script>
+    </body>
 </html>
