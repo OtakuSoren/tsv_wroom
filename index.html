@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>CSV表格網頁</title>
+        <title>台灣Vtuber檢索資訊</title>
         <link rel="stylesheet" type="text/css" href="css/datatables.min.css">
         <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
         <script type="text/javascript" src="js/datatables.min.js"></script>
@@ -25,29 +25,62 @@
         </table>
         <script type="text/javascript">
       Papa.parse("your_csv_file.csv", {
-        download: true,
-        header: true,
-        complete: function(results) {
-          var data = results.data;
-          var table = $('#myTable').DataTable({
-            data: data,
-            columns: [
-              { data: '頻道名稱' },
-              { 
-                data: null, // 在此欄位中手動建立超連結 HTML
-                render: function(data, type, row) {
-                  return '<a href="' + data.傳送門 + '">' + data.傳送門 + '</a>';
-                }
-              },
-              { data: '頻道加入時間' },
-              { data: '影片數' },
-              { data: '觀看次數' },
-              { data: '訂閱數' },
-              { data: '所屬' }
-            ]
-          });
+  download: true,
+  header: true,
+  complete: function(results) {
+    var data = results.data;
+    var table = $('#myTable').DataTable({
+      data: data,
+      columns: [
+        { data: '頻道名稱' },
+        { 
+          data: null,
+          render: function(data, type, row) {
+            return '<a href="' + data.傳送門 + '">' + data.傳送門 + '</a>';
+          }
+        },
+        { data: '頻道加入時間' },
+        { data: '影片數' },
+        { data: '觀看次數' },
+        { data: '訂閱數' },
+        { data: '所屬' }
+      ]
+    });
+    
+    // 設定自定義篩選
+    $.fn.dataTable.ext.search.push(
+      function(settings, data, dataIndex) {
+        var subscribe = parseFloat(data[5].replace(',', '')); // 取得訂閱數，並移除逗號分隔符號
+        var range = $('select#subscribe-range').val(); // 取得範圍選項
+        
+        switch (range) {
+          case '0': // <100
+            return subscribe < 100;
+          case '1': // 100~1000
+            return subscribe >= 100 && subscribe < 1000;
+          case '2': // 1000~10000
+            return subscribe >= 1000 && subscribe < 10000;
+          case '3': // 10000~100000
+            return subscribe >= 10000 && subscribe < 100000;
+          case '4': // >100000
+            return subscribe >= 100000;
+          default:
+            return true;
         }
+      }
+    );
+    
+    // 建立範圍選項
+    var select = $('<select id="subscribe-range"><option value="all">全部</option><option value="0"><100</option><option value="1">100~1000</option><option value="2">1000~10000</option><option value="3">10000~100000</option><option value="4">>100000</option></select>')
+      .appendTo('#myTable_filter')
+      .on('change', function() {
+        table.draw();
       });
+      
+    // 設定篩選文字
+    $('<label>訂閱數範圍: </label>').appendTo('#myTable_filter');
+  }
+});
         </script>
     </body>
 </html>
