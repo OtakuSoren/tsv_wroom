@@ -25,10 +25,9 @@ jobs:
         python-version: "3.10"
     - name: Run script
       run: python runGetDataPython/getYoutbeData.py
-    - name: Add CSV file
-      run: |
-         git config --global user.email "huangsoren@gmail.com"
-         git config --global user.name "Soren宅玩"
-         git add example.csv
-         git commit -m "Add CSV file"
-         git push
+           git config --global user.email "huangsoren@gmail.com"
+           git config --global user.name "Soren宅玩"
+           git add example.csv
+           git commit -m "Add example.csv"
+           git push
+
