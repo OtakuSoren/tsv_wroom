@@ -35,14 +35,11 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run script
-      env:
-       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
       run: python runGetDataPython/getYoutbeData.py
-           git add example.csv
-           git commit -m "Add example.csv"
-           git push
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: example-csv
-        path: example.csv
+    - name: Add CSV file
+      run: |
+         git config --local user.email "huangsoren@gmail.com"
+         git config --local user.name "OtakuSoren"
+         git add example.csv
+         git commit -m "Add CSV file"
+         git push
