@@ -25,9 +25,11 @@ jobs:
         python-version: "3.10"
     - name: Run script
       run: python runGetDataPython/getYoutbeData.py
+    - name: Commit report
+      run: |
            git config --global user.email "huangsoren@gmail.com"
-           git config --global user.name "Soren宅玩"
+           git config --global user.name "OtakuSoren"
            git add example.csv
-           git commit -m "Add example.csv"
+           git commit -am "Automated report"
            git push
 
