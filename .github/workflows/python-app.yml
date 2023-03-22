@@ -41,3 +41,8 @@ jobs:
            git add example.csv
            git commit -m "Add example.csv"
            git push
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: example-csv
+        path: example.csv
