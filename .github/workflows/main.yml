@@ -1,7 +1,7 @@
 name: Daily job
 on:
   schedule:
-    - cron: '0 8 * * *  Asia/Taipei' # 每天早上 8 点执行
+    - cron: '0 8 * * *' # 每天早上 8 点执行
 jobs:
   build:
     runs-on: ubuntu-latest
