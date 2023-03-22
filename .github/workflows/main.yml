@@ -6,14 +6,27 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2 # 拉取代码
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x' # 指定 Python 版本
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt # 安装依赖
-    - name: Run script
-      run: python runGetDataPython/getYoutubeData.py # 运行脚本
+      - name: Checkout code
+        uses: actions/checkout@v2 # 拉取代码
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x' # 指定 Python 版本
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt # 安装依赖
+      - name: Run script
+        run: python runGetDataPython/getYoutubeData.py # 运行脚本
+
+      # 添加模擬功能
+      - name: Set up environment variables for simulation
+        run: echo "GITHUB_EVENT_NAME=schedule" >> $GITHUB_ENV
+
+      # 添加模擬的工作流程步骤
+      - name: Simulate scheduled event
+        uses: peter-evans/scheduled-execution@v1
+        with:
+          schedule: '0 8 * * *' # 与工作流程定时器相同
+          simulated_time_zone: 'Asia/Taipei' # 以您的时区为准
+          scheduled_execution_id: 'Daily job' # 与工作流程名称相同
