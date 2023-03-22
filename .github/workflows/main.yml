@@ -16,4 +16,4 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt # 安装依赖
     - name: Run script
-      run: python tsv_wroom/runGetDataPython/getYoutubeData.py # 运行脚本
+      run: python runGetDataPython/getYoutubeData.py # 运行脚本
