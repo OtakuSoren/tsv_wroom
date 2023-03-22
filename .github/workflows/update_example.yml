@@ -23,7 +23,7 @@ jobs:
           pip install pandas
 
       - name: Run Python script to create CSV file
-        run: python runGetDataPython/build_csv_file.py
+        run: python runGetDataPython/getYoutbeData.py
 
       - name: Commit and push changes
         run: |
