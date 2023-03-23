@@ -39,4 +39,4 @@ jobs:
           destination_branch: "main"
           pr_title: "Pulling ${{ github.ref }} into main"
           pr_body: "update_example"
-          github_token: ${{ secrets.testupdateToken }}
+          github_token: ${{ secrets.testUpdateGitpushToken }}
