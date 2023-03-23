@@ -6,7 +6,7 @@ on:
 
 jobs:
   pull-request:
-    name: Open PR to master
+    name: updateCSV
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -39,4 +39,4 @@ jobs:
           destination_branch: "main"
           pr_title: "Pulling ${{ github.ref }} into main"
           pr_body: "update_example"
-          github_token: ${{ secrets.testUpdateGitpushToken }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
