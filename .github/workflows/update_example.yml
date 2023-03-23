@@ -25,6 +25,14 @@ jobs:
       - name: Run Python script to create CSV file
         run: python runGetDataPython/getYoutbeData.py
 
+      - uses: repo-sync/pull-request@v2
+        name: pull-request
+        with:
+          destination_branch: "main"
+          pr_title: "Pulling ${{ github.ref }} into main"
+          pr_body: "update_example"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Commit and push changes
         run: |
           git config --local user.email "huangsoren@gmail.com"
@@ -33,10 +41,4 @@ jobs:
           git commit -m "Update example.csv"
           git push
 
-      - uses: repo-sync/pull-request@v2
-        name: pull-request
-        with:
-          destination_branch: "main"
-          pr_title: "Pulling ${{ github.ref }} into main"
-          pr_body: "update_example"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+   
