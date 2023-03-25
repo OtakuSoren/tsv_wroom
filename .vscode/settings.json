@@ -1,7 +1,0 @@
-{
-    "python.testing.pytestArgs": [
-        "runGetDataPython"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
-}
