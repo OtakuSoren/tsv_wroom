@@ -1,119 +1,122 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>台灣Vtuber檢索資訊</title>
-        <link rel="stylesheet" type="text/css" href="css/datatables.min.css">
-        <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
-        <script type="text/javascript" src="js/datatables.min.js"></script>
-        <script type="text/javascript" src="js/papaparse.min.js"></script>
-    </head>
-    <body>
-        <table id="myTable">
-            <thead>
-                <tr>
-                    <th>頻道名稱</th>
-                    <th>傳送門</th>
-                    <th>頻道加入時間</th>
-                    <th>影片數</th>
-                    <th>觀看次數</th>
-                    <th>訂閱數</th>
-                    <th>所屬</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <script type="text/javascript">
-      Papa.parse("YoutubeData.csv", {
-  download: true,
-  header: true,
-  complete: function(results) {
-    var data = results.data;
-    var table = $('#myTable').DataTable({
-      data: data,
-      columns: [
-        { data: '頻道名稱' },
-        { 
-          data: null,
-          render: function(data, type, row) {
-            return '<a href="' + data.傳送門 + '">' + data.傳送門 + '</a>';
-          }
-        },
-        { data: '頻道加入時間' },
-        { data: '影片數' },
-        { data: '觀看次數' },
-        { data: '訂閱數' },
-        { data: '所屬' }
-      ],
-      order: [[5, 'asc']] // 以訂閱數遞減排序
-    });
-    
-    //建立所屬篩選下拉選單
-      var distinct = [];
-      table.column(6).data().each(function(value, index) {
-        if (distinct.indexOf(value) === -1) {
-          distinct.push(value);
-        }
-      });
 
-      var select = $('<select><option value="">所有</option></select>')
-        .appendTo('#myTable_filter')
-        .on('change', function() {
-          var val = $.fn.dataTable.util.escapeRegex(
-            $(this).val()
-          );
-          
-          table.column(6).search(val ? '^' + val + '$' : '', true, false).draw();
-          
-          
+<head>
+  <meta charset="UTF-8">
+  <title>台灣Vtuber檢索資訊</title>
+  <link rel="stylesheet" type="text/css" href="css/datatables.min.css">
+  <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="js/datatables.min.js"></script>
+  <script type="text/javascript" src="js/papaparse.min.js"></script>
+</head>
+
+<body>
+  <table id="myTable">
+    <thead>
+      <tr>
+        <th>頻道名稱</th>
+        <th>傳送門</th>
+        <th>頻道加入時間</th>
+        <th>影片數</th>
+        <th>觀看次數</th>
+        <th>訂閱數</th>
+        <th>所屬</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <script type="text/javascript">
+    Papa.parse("YoutubeData.csv", {
+      download: true,
+      header: true,
+      complete: function (results) {
+        var data = results.data;
+        var table = $('#myTable').DataTable({
+          data: data,
+          columns: [
+            { data: '頻道名稱' },
+            {
+              data: null,
+              render: function (data, type, row) {
+                return '<a href="' + data.傳送門 + '">' + data.傳送門 + '</a>';
+              }
+            },
+            { data: '頻道加入時間' },
+            { data: '影片數' },
+            { data: '觀看次數' },
+            { data: '訂閱數' },
+            { data: '所屬' }
+          ],
+          order: [[5, 'asc']] // 以訂閱數遞減排序
         });
 
+        //建立所屬篩選下拉選單
+        var distinct = [];
+        table.column(6).data().each(function (value, index) {
+          if (distinct.indexOf(value) === -1) {
+            distinct.push(value);
+          }
+        });
 
-      $.each(distinct, function(index, value) {
-        if(value.trim() != ''){
-          select.append('<option value="' + value + '">' + value + '</option>');
-        }
-        
-      });
-      // 設定篩選文字
-      $('<label>所屬   </label>').appendTo('#myTable_filter');
+        var select = $('<select><option value="">所有</option></select>')
+          .appendTo('#myTable_filter')
+          .on('change', function () {
+            var val = $.fn.dataTable.util.escapeRegex(
+              $(this).val()
+            );
+
+            table.column(6).search(val ? '^' + val + '$' : '', true, false).draw();
+
+
+          });
+
+
+        $.each(distinct, function (index, value) {
+          if (value.trim() != '') {
+            select.append('<option value="' + value + '">' + value + '</option>');
+          }
+
+        });
+        // 設定篩選文字
+        $('<label>所屬   </label>').appendTo('#myTable_filter');
 
 
 
-    // 設定自定義篩選
-    $.fn.dataTable.ext.search.push(
-      function(settings, data, dataIndex) {
-        var subscribe = parseFloat(data[5].replace(',', '')); // 取得訂閱數，並移除逗號分隔符號
-        var range = $('select#subscribe-range').val(); // 取得範圍選項
-        
-        switch (range) {
-          case '0': // <100
-            return subscribe < 100;
-          case '1': // 100~1000
-            return subscribe >= 100 && subscribe < 1000;
-          case '2': // 1000~10000
-            return subscribe >= 1000 && subscribe < 10000;
-          case '3': // 10000~100000
-            return subscribe >= 10000 && subscribe < 100000;
-          case '4': // >100000
-            return subscribe >= 100000;
-          default:
-            return true;
-        }
+        // 設定自定義篩選
+        $.fn.dataTable.ext.search.push(
+          function (settings, data, dataIndex) {
+            var subscribe = parseFloat(data[5].replace(',', '')); // 取得訂閱數，並移除逗號分隔符號
+            var range = $('select#subscribe-range').val(); // 取得範圍選項
+
+            switch (range) {
+              case '0': // <100
+                return subscribe < 100;
+              case '1': // 100~1000
+                return subscribe >= 100 && subscribe < 1000;
+              case '2': // 1000~10000
+                return subscribe >= 1000 && subscribe < 10000;
+              case '3': // 10000~100000
+                return subscribe >= 10000 && subscribe < 100000;
+              case '4': // >100000
+                return subscribe >= 100000;
+              default:
+                return true;
+            }
+          }
+        );
+
+        // 建立範圍選項
+        var select = $('<select id="subscribe-range"><option value="all">全部</option><option value="0"><100</option><option value="1">100~1000</option><option value="2">1000~10000</option><option value="3">10000~100000</option><option value="4">>100000</option></select>')
+          .appendTo('#myTable_filter')
+          .on('change', function () {
+            table.draw();
+          });
+
+        // 設定篩選文字
+        $('<label>訂閱數範圍</label>').appendTo('#myTable_filter');
       }
-    );
-    
-    // 建立範圍選項
-    var select = $('<select id="subscribe-range"><option value="all">全部</option><option value="0"><100</option><option value="1">100~1000</option><option value="2">1000~10000</option><option value="3">10000~100000</option><option value="4">>100000</option></select>')
-      .appendTo('#myTable_filter')
-      .on('change', function() {
-        table.draw();
-      });
-      
-    // 設定篩選文字
-    $('<label>訂閱數範圍</label>').appendTo('#myTable_filter');
-  }
-});
-        </script>
-    </body>
+    });
+  </script>
+</body>
+
 </html>
