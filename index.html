@@ -49,6 +49,15 @@
           ],
           order: [[5, 'asc']] // 以訂閱數遞減排序
         });
+        // Add CSS to highlight rows on hover
+        $('#myTable').on('mouseenter', 'tr', function () {
+          $(this).addClass('highlight');
+        });
+
+        $('#myTable').on('mouseleave', 'tr', function () {
+          $(this).removeClass('highlight');
+        });
+
 
         //建立所屬篩選下拉選單
         var distinct = [];

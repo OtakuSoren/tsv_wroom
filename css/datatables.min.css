@@ -11,9 +11,6 @@
  */
 
 
-th {
-    text-align: left;
-}
 
 table.dataTable {
     width: 100%;
@@ -93,6 +90,16 @@ table.dataTable tbody tr:nth-child(odd) {
 /* 偶數行的背景顏色為淺灰色 */
 table.dataTable tbody tr:nth-child(even) {
     background-color: #ece5e5;
+}
+
+
+
+th {
+    text-align: left;
+}
+
+table.dataTable tbody tr:hover {
+    background-color: yellow;
 }
 
 table.dataTable tbody th,
