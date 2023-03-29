@@ -15,7 +15,6 @@
     <thead>
       <tr>
         <th>頻道名稱</th>
-        <th>傳送門</th>
         <th>建立於</th>
         <th>影片數</th>
         <th>觀看次數</th>
@@ -34,11 +33,10 @@
         var table = $('#myTable').DataTable({
           data: data,
           columns: [
-            { data: '頻道名稱' },
             {
               data: null,
               render: function (data, type, row) {
-                return '<a href="' + data.傳送門 + '">' + data.傳送門 + '</a>';
+                return '<a href="' + data.傳送門 + '">' + data.頻道名稱 + '</a>';
               }
             },
             { data: '頻道加入時間' },
