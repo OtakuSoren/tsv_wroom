@@ -45,7 +45,7 @@
             { data: '訂閱數' },
             { data: '所屬' }
           ],
-          order: [[5, 'asc']] // 以訂閱數遞減排序
+          order: [[4, 'asc']] // 以訂閱數遞減排序
         });
         // Add CSS to highlight rows on hover
         $('#myTable').on('mouseenter', 'tr', function () {
@@ -59,7 +59,7 @@
 
         //建立所屬篩選下拉選單
         var distinct = [];
-        table.column(6).data().each(function (value, index) {
+        table.column(5).data().each(function (value, index) {
           if (distinct.indexOf(value) === -1) {
             distinct.push(value);
           }
@@ -72,7 +72,7 @@
               $(this).val()
             );
 
-            table.column(6).search(val ? '^' + val + '$' : '', true, false).draw();
+            table.column(5).search(val ? '^' + val + '$' : '', true, false).draw();
 
 
           });
