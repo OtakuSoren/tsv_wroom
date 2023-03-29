@@ -92,7 +92,7 @@
         // 設定自定義篩選
         $.fn.dataTable.ext.search.push(
           function (settings, data, dataIndex) {
-            var subscribe = parseFloat(data[5].replace(',', '')); // 取得訂閱數，並移除逗號分隔符號
+            var subscribe = parseFloat(data[4].replace(',', '')); // 取得訂閱數，並移除逗號分隔符號
             var range = $('select#subscribe-range').val(); // 取得範圍選項
 
             switch (range) {
